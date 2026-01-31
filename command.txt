@@ -1,0 +1,30 @@
+  219  cd documents
+  220  ls
+  221  ls -al
+  222  mkdir NIBATOJR
+  223  cd NIBATOJR
+  224  ls
+  225  touch readme.md
+  226  ls
+  227  start readme.md
+  228  git config --global user.name
+  229  git config --global user.email
+  230  git config --global user.name "jrnibs"
+  231  git config --global user.email "johnnibato13@gmail.com"
+  232  git init
+  233  ls -al
+  234  git status
+  235  git add .
+  236  git status
+  237  git commit -m "add readme"
+  238  git branch -M main
+  239  git remote add origin https://github.com/IT222-DENNIS/NIBATOJR.git
+  240  git push -u origin main
+  241  git add .
+  242  git status
+  243  git commit -m "update readme"
+  244  git push
+
+
+git rebase submain
+git pull
