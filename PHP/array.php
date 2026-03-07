@@ -1,0 +1,32 @@
+<?php
+$cars = array("honda","bmw","ferrari");
+$toys = ["gun", "truck", "doll"];
+$ages = ["peter" => 42, "john" => 25, "carlo" => 25];
+$families = [ "NIBATO" => ["john","carlo","steven"],
+                "DOE" => ["anna", "rose", "mark"]];
+echo $cars[0].'<br>';
+echo $cars[1].'<br>';
+echo $cars[2].'<br>';
+echo '<br>';
+echo $toys[0].'<br>';
+echo $toys[1].'<br>';
+echo $toys[2].'<br>';
+echo '<br>';
+$cars[] = "nissan";
+$toys[] = "cars";
+echo $cars[3].'<br>';
+echo $toys[3].'<br>';
+echo '<br>';
+echo $ages['peter'].'<br>';
+echo $ages['john'].'<br>';
+echo $ages['carlo'].'<br>';
+$ages['steven'] = 32;
+echo $ages['steven'].'<br>';
+echo '<br>';
+echo "Is ". $families["NIBATO"][0]. " from NIBATO FAM <br>";
+echo "Is ". $families["NIBATO"][1]. " from NIBATO FAM <br>";
+echo "Is ". $families["NIBATO"][2]. " from NIBATO FAM <br>";
+echo '<br>';
+echo "Is ". $families["DOE"][0]. " from DOE FAM <br>";
+echo "Is ". $families["DOE"][1]. " from DOE FAM <br>";
+echo "Is ". $families["DOE"][2]. " from DOE FAM <br>";
