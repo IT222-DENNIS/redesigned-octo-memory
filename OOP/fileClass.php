@@ -1,8 +1,6 @@
 <?php 
-
 class File{
     private $filename;
-
     private $location;
 
     public function __construct($filename,$mode = 'r'){
@@ -32,7 +30,6 @@ class File{
             // fwrite($this->location, $content);
         }
     }
-
 }
 
 $f = new File('image.jpg');
