@@ -96,13 +96,29 @@ class Customer{
     private $email;
     private $phone;
     private $address;
+    private $accounts = [];
 
     public function __construct($name,$email,$phone,$address){
         $this->name = $name;
         $this->email = $email;
         $this->phone = $phone;
         $this->address = $address;
+        $this->accounts = [];
 
+    }
+
+    public function openAccount($account, $bankAccount){
+        $this->accounts[] = ['account' => $account, 'bankAccount' => $bankAccount];
+    }
+
+    public function closeAccount($accountToClose){
+        foreach($this->accounts as $index => $accountData){
+            if($accountData['account']->getAccountNumber() === $accountToClose->getAccountNumber()){
+                unset($this->accounts[$index]);
+                return true;
+            }
+        }
+        return false;
     }
 
     public function getName(){
@@ -120,26 +136,20 @@ class Customer{
     public function getAddress(){
         return $this->address;
     }
+}
 
-    // public function setName($name){
-    //     $name = trim($name);
+class Bank{
+    private $customers;
 
-    //     if($name === ""){
-    //         return false;
-    //     }
-    //     $this->name = $name;
-    //     return true;
-    // }
+    public function __construct(){
+        $this->customers = [];
+    }
 
-    // public function setEmail($email){
-    //     return $this->email = $email;
-    // }
+    public function getCustomers(){
+        return $this->customers;
+    }
 
-    // public function setPhone($phone){
-    //     return $this->phone = $phone;
-    // }
-
-    // public function setAddress($address){
-    //     return $this->address = $address;
-    // }
+    public function addCustomer($customer){
+        $this->customers[] = $customer;
+    }
 }

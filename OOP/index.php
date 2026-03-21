@@ -10,12 +10,23 @@
     <?php include 'class.php'; ?>
     <?php 
     //create account
-    $account3 = new Account("789");
-    $account4 = new Account("012");
+    $account1 = new Account("789");
+    $account2 = new Account("012");
 
     //create bank account
     $saveAccount = new SavingAccount(100, 5);
     $checkAccount = new CheckingAccount(100, 50);
+
+    //create customer
+    $customer1 = new Customer("JOHN NIBATO","john@example.com","123-456-7890","123 Main St");
+    $customer2 = new Customer("JANE DOE","jane@example.com","987-654-3210","456 Elm St");
+
+    $customer1->openAccount($account1, $saveAccount);
+    $customer2->openAccount($account2, $checkAccount);
+
+    $bank = new Bank();
+    $bank->addCustomer($customer1);
+    $bank->addCustomer($customer2);
 
     echo "<h3>Saving Account</h3>";
 
