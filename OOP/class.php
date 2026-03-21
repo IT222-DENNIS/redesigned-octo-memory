@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 class Account{
     private $accountNumber;
 
@@ -14,10 +14,9 @@ class Account{
 }
 class BankAccount{
     
+    private float $balance;
 
-    private $balance;
-
-    public function __construct($balance){
+    public function __construct(float $balance){
         $this->balance = $balance;
     }
 
@@ -47,7 +46,49 @@ class BankAccount{
         }
     }
 
+}
 
+class SavingAccount extends BankAccount{
+    private $interestRate;
+
+    public function __construct($balance , $interestRate){
+        parent::__construct($balance);
+        $this->interestRate = $interestRate;
+    }
+
+    public function getInterestRate(){
+        return $this->interestRate;
+    }
+
+    public function setInterestRate($interestRate){
+        $this->interestRate = $interestRate;
+    }
+
+    public function addInterest(){
+        $interest = $this->getbalance() * ($this->interestRate / 100);
+        $this->transaction($interest, "deposit");
+    }
+}
+
+class CheckingAccount extends BankAccount{
+    private $minBalance;
+
+    public function __construct($balance , $minBalance){
+        parent::__construct($balance);
+        $this->minBalance = $minBalance;
+    }
+
+    public function withdraw($amount){
+        if($amount > 0 && ($this->getBalance() - $this->minBalance) >= $amount){
+            $this->transaction($amount, "withdraw");
+            return true;
+        }
+        return false;
+    }
+
+    public function getMinBalance(){
+        return $this->minBalance;
+    }
 }
 
 class Customer{
