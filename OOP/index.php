@@ -12,36 +12,75 @@
     //create account
     $account1 = new Account("789");
     $account2 = new Account("012");
+    $account3= new Account("789");
+    $account4 = new Account("012");
 
     //create bank account
     $saveAccount = new SavingAccount(100, 5);
     $checkAccount = new CheckingAccount(100, 50);
+    $checkAccount1 = new CheckingAccount(100, 50);
 
     //create customer
     $customer1 = new Customer("JOHN NIBATO","john@example.com","123-456-7890","123 Main St");
     $customer2 = new Customer("JANE DOE","jane@example.com","987-654-3210","456 Elm St");
 
     $customer1->openAccount($account1, $saveAccount);
-    $customer2->openAccount($account2, $checkAccount);
+    $customer1->openAccount($account2, $checkAccount);
+    $customer2->openAccount($account3, $checkAccount1);
 
     $bank = new Bank();
     $bank->addCustomer($customer1);
     $bank->addCustomer($customer2);
 
-    echo "<h3>Saving Account</h3>";
+    // $bank->removeCustomer($customer1);
+    echo "<hr>";
+    if($bank->verifyCustomer($customer1)){
+        echo $customer1->getName() . " is a customer";
+    }else {
+        echo $customer1->getName() . " is not a customer";
+    }
+    
+    $bank->processTransaction($customer1->getAccount()[0]['bankAccount'],1000);
+    $bank->processTransaction($customer1->getAccount()[0]['bankAccount'],200);
+    $bank->processTransaction($customer1->getAccount()[1]['bankAccount'],2000);
+    $bank->processTransaction($customer1->getAccount()[1]['bankAccount'],-2000);
 
-    $saveAccount->transaction(500, "deposit");
-    $saveAccount->transaction(200, "withdraw");
     $saveAccount->addInterest();
 
-    echo " Interest Rate ". $saveAccount->getInterestRate() . "%<br>";
-    echo "Balance: $" . $saveAccount->getBalance();
+    //closing account
+    $customer2->closeAccount($account3);
 
-    echo "<h3>Checking Account</h3>";
-    $checkAccount->transaction(300, "deposit");
-    $checkAccount->withdraw(400);
-    echo "Minimum Balance: $" . $checkAccount->getMinBalance() . "<br>";
-    echo "Balance: $" . $checkAccount->getBalance() . "<br>";
+    echo "<br> <hr>";
+    //display
+    foreach($bank->getCustomers() as $customer){
+        echo "<hr>CUSTOMER DETAILS <br><br>" .
+        "Name : " . $customer->getName() . "<br> " .
+        "Email : " . $customer->getEmail() . "<br> " .
+        "Phone : " . $customer->getPhone() . "<br> " .
+        "Address : " . $customer->getAddress() . "<br> " ;
+        
+        echo "<br> Account Details : <br>";
+        foreach($customer->getAccount() as $account){
+            echo "<br>";
+            echo "Account Number : " . $account['account']->getAccountNumber()."<br>";
+            echo "Balance : P " . $account['bankAccount']->getBalance()."<br>";
+        }
+    }
+
+    // echo "<h3>Saving Account</h3>";
+
+    // $saveAccount->transaction(500, "deposit");
+    // $saveAccount->transaction(200, "withdraw");
+    // $saveAccount->addInterest();
+
+    // echo " Interest Rate ". $saveAccount->getInterestRate() . "%<br>";
+    // echo "Balance: $" . $saveAccount->getBalance();
+
+    // echo "<h3>Checking Account</h3>";
+    // $checkAccount->transaction(300, "deposit");
+    // $checkAccount->withdraw(400);
+    // echo "Minimum Balance: $" . $checkAccount->getMinBalance() . "<br>";
+    // echo "Balance: $" . $checkAccount->getBalance() . "<br>";
 
     // $account1->accountNumber = "456";
     // $account1->balance = 2000;

@@ -1,5 +1,13 @@
 <?php
 declare(strict_types=1);
+trait Logger{
+    public function log($message){
+        $logEntry = date('Y-m-d h:i:s'). ':' . '(' . __CLASS__ .')' . $message . PHP_EOL;
+       
+        file_put_contents('log.txt', $logEntry, FILE_APPEND);
+    }
+}
+
 class Account{
     private $accountNumber;
 
@@ -13,24 +21,26 @@ class Account{
 
 }
 class BankAccount{
-    
+    Use Logger;
+
     private float $balance;
 
     public function __construct(float $balance){
         $this->balance = $balance;
+        $this->log("new BankAccount is created");
     }
 
     public function getBalance(){
         return $this->balance;
     }
 
-    private function deposit($amount){
+    public function deposit($amount){
         if($amount > 0){
             $this->balance += $amount;
         }
         return $this;
     }
-    private function withdraw($amount){
+    public function withdraw($amount){
         if($amount <= $this->balance){
             $this->balance -= $amount;
             return true;
@@ -42,7 +52,7 @@ class BankAccount{
         if($type === "deposit"){
             return $this->deposit($amount);
         } elseif($type === "withdraw") {
-            return $this->withdraw($amount);
+            return $this->withdraw(abs($amount));
         }
     }
 
@@ -80,7 +90,7 @@ class CheckingAccount extends BankAccount{
 
     public function withdraw($amount){
         if($amount > 0 && ($this->getBalance() - $this->minBalance) >= $amount){
-            $this->transaction($amount, "withdraw");
+            parent::withdraw(abs($amount));
             return true;
         }
         return false;
@@ -136,6 +146,10 @@ class Customer{
     public function getAddress(){
         return $this->address;
     }
+
+    public function getAccount(){
+        return $this->accounts ?? [];
+    }
 }
 
 class Bank{
@@ -151,5 +165,26 @@ class Bank{
 
     public function addCustomer($customer){
         $this->customers[] = $customer;
+    }
+
+    public function verifyCustomer($customer){
+        return in_array($customer, $this->customers);
+    }
+
+    public function removeCustomer($customer){
+        $index = array_search($customer, $this->customers);
+        if($index !== false){
+            unset($this->customers[$index]);
+            return true;
+        }
+        return false;
+    }
+
+    public function processTransaction($account, $amount){
+        if($amount > 0){
+            $account->deposit($amount);
+        }else {
+            $account->withdraw(abs($amount));
+        }
     }
 }
